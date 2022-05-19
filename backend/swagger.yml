@@ -1,0 +1,745 @@
+openapi: "3.0.2"
+info:
+    title: 42 Kanban Board
+    version: "1.0"
+    description: |
+        FIXME:
+        ###   개발 기한 , 추가 개발 범위 , (6월 안으로 dev 종료) (7월 4일 배포 시작)
+        ###   (query parameters 통일) 
+        ###   redirection 거는 추가 url 빼고 다 나온거죠
+        ###   status code ( 200 , 301, 401, 404, 500 )
+        ###   (인증방식은 토큰으로 구현해오기)
+        ###   (뒤에 따라오는 파라미터 안보이게 하기) 
+
+        TODO:
+        ###   boardTitle, workSpaceName, name => 공백 alnum + !@#$%^&*()_-+= 특수문자 전부 가능 + 이모지 가능 --> 추후 협의
+
+        ###   mail 알람 기능 추가
+
+        ###   어디까지 맞추고 어디부터 자유양식할건지 정해야되고 phase 하나 진행할 때 기간을 좀 얘기 해봐야 되고, 
+        ###   파일과 디렉토리는 통일, 추가로 필요한 거 있으면 원래 있던 파일 교체 x, 새로 알아서 붙여오기
+        ###   1 Phase = 1 Week (매주 수요일)
+
+        1. (~6/1): 로그인/로그아웃 기능까지 구현해오기 (table) ( 코드 리뷰 ) 
+        2. (~6/8): ~ workspace + /board/+ card + list ( ) 
+        3. (~6/15): ~ workspace/board/member + setting + user 
+        4. (~6/22): ~ middleware 완성 + api 테스트 + 성능 향상 ( merge 시작 ) 
+        5. (~6/29): ~ development 끝 
+        6. (~7/6): 배포 시작(aws, 예빈님 아이디로 프리티어 ) 
+
+        ###   backend/app.js
+        ####  models: [user.js, member.js, workspace.js board.js, list.js, card.js, cardHistory.js, listHistory.js, boardHistory.js, link.js]
+        ####  controllers: [user.js, member.js, workspace.js board.js, list.js, card.js, cardHistory.js, listHistory.js, boardHistory.js, link.js]
+        ####  routers: [ router.js ]
+        ####  config: [ .env, config.js ]
+        ####  middlewares: [ middleware.js ]
+        ===========================================================================
+        ##### 알아서 하기 ~
+
+servers:
+    - url: https://localhost:3000/api
+
+components:
+    schemas:
+        activity:
+            properties:
+                description:
+                    type: string
+                time:
+                    type: string
+                    format: date-time
+        getUser:
+            properties:
+                name:
+                    type: string
+                email:
+                    type: string
+                activity:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/activity"
+
+        updateWorkSpace:
+            properties:
+                workSpaceName:
+                    type: string
+                "type":
+                    type: string
+                description:
+                    type: string
+                    nullable: true
+                visibility:
+                    type: boolean
+                    nullable: true
+        WorkSpace:
+            properties:
+                id:
+                    type: integer
+                owner:
+                    type: string
+                workSpaceName:
+                    type: string
+                "type":
+                    type: string
+                description:
+                    type: string
+                    nullable: true
+                visibility:
+                    type: boolean
+                    nullable: true
+        inviteLink:
+            properties:
+                link:
+                    type: string
+                    format: url
+        getMember:
+            properties:
+                id:
+                    type: integer
+                email:
+                    type: string
+                name:
+                    type: string
+                authority:
+                    type: string
+                    enum:
+                        - "owner"
+                        - "maintainer"
+                        - "member"
+
+        updateCard:
+            properties:
+                cardTitle:
+                    type: string
+                    nullable: true
+                description:
+                    type: string
+                    nullable: true
+                dueDate:
+                    type: string
+                    format: date-time
+                    nullable: true
+        updateList:
+            properties:
+                listTitle:
+                    type: string
+                    nullable: true
+                position:
+                    type: integer
+                    nullable: true
+
+        createList:
+            properties:
+                listTitle:
+                    type: string
+
+        updateBoard:
+            properties:
+                boardTitle:
+                    type: string
+                    nullable: true
+                visibility:
+                    type: boolean
+                    nullable: true
+                workspaceId:
+                    type: integer
+                    nullable: true
+
+        createCard:
+            properties:
+                cardTitle:
+                    type: string
+
+        createBoard:
+            properties:
+                boardTitle:
+                    type: string
+                visibility:
+                    type: boolean
+
+        Card:
+            properties:
+                id:
+                    type: integer
+                listId:
+                    type: integer
+                cardTitle:
+                    type: string
+                description:
+                    type: string
+                status:
+                    type: boolean
+                dueDate:
+                    type: string
+                    format: date-time
+
+        List:
+            properties:
+                id:
+                    type: integer
+                listTitle:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                Card:
+                    type: array
+                    xml:
+                        name: Card
+                        wrapped: true
+                    items:
+                        $ref: "#/components/schemas/Card"
+
+        getBoard:
+            properties:
+                id:
+                    type: integer
+                workspaceId:
+                    type: integer
+                boardTitle:
+                    type: string
+                visibility:
+                    type: boolean
+                createdAt:
+                    type: string
+                    format: date-time
+                List:
+                    type: array
+                    xml:
+                        name: List
+                        wrapped: true
+                    items:
+                        $ref: "#/components/schemas/List"
+
+        Board:
+            properties:
+                id:
+                    type: integer
+                workspaceId:
+                    type: integer
+                boardTitle:
+                    type: string
+                visibility:
+                    type: boolean
+
+        getWorkSpace:
+            properties:
+                id:
+                    type: integer
+                owner:
+                    type: string
+                workSpaceName:
+                    type: string
+                "type":
+                    type: string
+                description:
+                    type: string
+                boards:
+                    type: array
+                    xml:
+                        name: Board
+                        wrapped: true
+                    items:
+                        $ref: "#/components/schemas/Board"
+
+        200Response:
+            required:
+                - status
+                - message
+            properties:
+                status:
+                    type: integer
+                message:
+                    type: string
+        Error:
+            required:
+                - status
+                - message
+            properties:
+                status:
+                    type: integer
+                message:
+                    type: string
+
+apis:
+    - ../routers/router
+tags:
+    - name: Login
+      description: Api for Login Page
+    - name: Home
+      description: Api for Home Page, [WorkSpace + board 다 나오는 페이지]
+    - name: WorkSpace
+      description: Api for WorkSpace Page
+    - name: Board
+      description: Api for Board Page
+    - name: Member
+      description: Api for Member Page
+    - name: Preference
+      description: Api for Preference Page
+    - name: CreateWorkSpace
+      description: Api for CreateWorkSpace Page
+    - name: User
+      description: Api for User Page
+
+paths:
+    /:
+        tags: 
+            - name: Home
+        get:
+            description: "Home Page"
+            parameters: []
+            responses:
+                "200":
+                    description: OK
+
+    /login:
+        get:
+            description: "Login Page"
+            parameters: []
+            responses:
+                "200":
+                    description: OK
+
+    /workspace:
+        get:
+            description: "Get WorkSpace"
+            parameters:
+                - name: workSpaceName
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getWorkSpace"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        post:
+            description: "Create New Board"
+            parameters:
+                - name: workspaceId
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/createBoard"
+
+            responses:
+                "301":
+                    description: Redirect
+                    links: "http://localhost:3000/api/workspace/board"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+    /workspace/board:
+        get:
+            description: "Get Board"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getBoard"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+        patch:
+            description: "Update Board"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/updateBoard"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/200Response"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+        delete:
+            description: "Delete Board"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+
+            responses:
+                "301":
+                    description: Redirect
+                    links: "http://localhost:3000/api"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+    /workspace/board/list:
+        post:
+            description: "Create List"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/createList"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/200Response"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+        patch:
+            description: "Update List"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/updateList"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/200Response"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+        delete:
+            description: "Delete List"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/200Response"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+    /workspace/board/card:
+        post:
+            description: "Create Card"
+            parameters:
+                - name: listId
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: OK
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/createCard"
+        patch:
+            description: "Update Card"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/updateCard"
+            responses:
+                "200":
+                    description: OK
+        delete:
+            description: "Delete Card"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/200Response"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+    /workspace/member:
+        get:
+            description: "Get Member Page"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getMember"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        post:
+            description: "Create Invite Link"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/inviteLink"
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        delete:
+            description: "Delete Member"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/200Response"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+    /workspace/setting:
+        get:
+            description: "Get WorkSpace Settings"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/WorkSpace"
+        patch:
+            description: "Update WorkSpace Settings"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/updateWorkSpace"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/200Response"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        delete:
+            description: "Delete WorkSpace"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+
+            responses:
+                "301":
+                    description: Redirect
+                    links: "http://localhost:3000/api"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+    /user:
+        get:
+            description: "Get User Profile"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/getUser"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        patch:
+            description: "Patch User Profile"
+            parameters:
+                - name: id
+                  in: query
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            properties:
+                                name:
+                                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/200Response"
+
+                default:
+                    description: unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
