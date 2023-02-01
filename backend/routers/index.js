@@ -11,8 +11,8 @@ const userId = 'ohtjqkd';
 const auth_url = 'https://accounts.google.com/o/oauth2/auth';
 const auth_token_url = 'https://oauth2.googleapis.com/token';
 const redirect_url = 'http://localhost:5000/api/v1/auth/login/google/postmessage';
-const client_id = '1066142769848-nb4mnr77e05v52jjpear80vu8mvjvt6v.apps.googleusercontent.com'
-const secret = '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'
+// Need env const client_id = 
+// Need env const secret = 
 const auth = require('../middlewares/authentication');
 const oauth2Client = new google.auth.OAuth2(
     client_id,
