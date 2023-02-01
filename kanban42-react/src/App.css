@@ -1,0 +1,704 @@
+/* * {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+button {
+  appearance: auto;
+  writing-mode: horizontal-tb !important;
+  text-rendering: auto;
+  color: buttontext;
+  letter-spacing: normal;
+  word-spacing: normal;
+  line-height: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: center;
+  align-items: flex-start;
+  cursor: default;
+  box-sizing: border-box;
+  background-color: buttonface;
+  margin: 0em;
+  padding: 1px 6px;
+  border-width: 2px;
+  border-style: outset;
+  border-color: buttonborder;
+  border-image: initial;
+}
+
+a {
+  height: 100%;
+}
+
+#surface {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  overflow-y: hidden;
+  line-height: 20px;
+  position: relative;
+}
+
+
+
+.board-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1 1 auto;
+  flex-basis: 100%;
+  overflow: hidden;
+}
+
+.board-content {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+}
+
+.board-content .list-wrapper {
+  min-width: 50px;
+  min-width: fit-content;
+  width: 200px;
+}
+
+.board-content .list-box {
+  display: flex;
+  flex: wrap;
+  align-items: stretch;
+  flex-direction: column;
+  background-color: #61dafb;
+  border-radius: 10px;
+  width: 12vw;
+  margin: 5px;
+  padding: 5px;
+  box-shadow: 5px 5px 2px 1px rgba(0, 0, 255, .2);
+}
+
+
+.board-content .list-box .list-title {
+  width: 100%;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.board-content .list-box .list-title > textarea {
+  overflow-wrap: break-word; height: 108px;
+}
+
+.board-content .list-box .card-container {
+  width: inherit;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow-y: auto;
+}
+
+.board-content .list-box button {
+  width: 100%;
+  max-height: 44px;
+  min-height: 44px;
+}
+
+.board-content .list-box .card-container .card-box {
+  max-height: 30px;
+  min-height: 30px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 5px 5px 2px 1px rgba(0, 0, 255, .2);
+  margin: 3px;
+}
+
+.board-content .list-box .card-container .card-box .card-detail {
+  padding: 5px;
+  line-height: 20px;
+}
+*/
+
+/* header css */
+
+
+/* main css */
+
+.main-container {
+  display: flex;
+  justify-content: center;
+}
+
+.home-nav {}
+
+.nav-workspace-list {
+  display: flex;
+}
+
+.main-content {
+  width: 100%;
+  max-width: 825px;
+  min-width: 288px;
+}
+
+.workspace-wrapper {
+}
+
+
+
+.workspace-header {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.board-list {
+  display: flex;
+}
+
+.board-card {
+  width: 23.5%;
+  background-color: #61dafb;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.board-tile {
+  height: 80px;
+}
+/* board page css */
+
+.create-card.mod-add {
+  position: relative;
+}
+
+.create-card.mod-add > * {
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-height: 30px;
+  min-height: 30px;
+}
+
+.create-card.mod-add > form > input{
+  width: 95%;
+}
+.create-card.mod-add .btn-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.create-card.mod-add.is-idle > form{
+  display: none;
+} /*
+
+
+.trello-main-logo {
+  display: block;
+  height: 43px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.inner-section {
+  padding: 0px;
+  overflow: visible;
+  margin-bottom: 30px;
+}
+
+.section-wrapper {
+  max-width:400px;
+  width: 40vw;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#popover-boundary {
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  flex-grow: 1;
+}
+
+@media only screen and (min-width: 900px) {
+  .section-wrapper {
+    margin: 0 auto;
+    max-width: 1300px;
+  }
+}
+*/
+
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  line-height: 30px;
+  /* background-color: grey; */
+}
+
+
+html, body, #root, #surface {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+#surface {
+  display: flex;
+  flex-direction: column;
+}
+
+#popover-boundary {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.board-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 2px 8px;
+  background-image: url('https://mblogthumb-phinf.pstatic.net/MjAxOTA5MDlfMTIy/MDAxNTY3OTk5MzY4Mzk4.wwhqLy8ZhsdXkSRRPuM6g70_J0AGV1kOxcnSFr-Jyhkg.imgcUCPn48oVfnMsaRAOC1I3Ddy8LMUpUbKKMz5IEv0g.JPEG.roun1824/DSC08928_보정.jpg?type=w800');
+  background-size: cover;
+}
+
+.board-content {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  align-items: stretch;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding-bottom: 8px;
+}
+
+#footer {
+  flex-grow: 0;
+}
+
+.board-content .list-wrapper {
+  height: 100%;
+  max-height: 100%;
+  min-width: 50px;
+  min-width: fit-content;
+  width: 200px;
+}
+
+.board-content .list-box {
+  display: flex;
+  flex-direction: column;
+  background-color: #61dafb;
+  border-radius: 10px;
+  width: fit-content;
+  margin: 5px;
+  padding: 5px;
+  box-shadow: 5px 5px 2px 1px rgba(0, 0, 255, .2);
+}
+
+.board-content .list-box .list-title-wrapper {
+  flex-grow: 1; 
+}
+
+.board-content .list-box .list-title {
+  width: 100%;
+  padding: 10px;
+  /* overflow: hidden; */
+}
+
+.board-content .list-box .list-title > textarea {
+  overflow-wrap: break-word;
+}
+
+.board-content .list-box .card-container {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow-y: auto;
+}
+
+.list-tail-btn {
+  flex-grow: 1;
+}
+/*
+.board-content .list-box button {
+  width: 100%;
+  max-height: 44px;
+  min-height: 44px;
+}
+*/
+.board-content .list-box .card-container .card-box {
+  max-height: 30px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 5px 5px 2px 1px rgba(0, 0, 255, .2);
+  margin: 3px;
+}
+/*
+.board-content .list-box .card-container .card-box .card-detail {
+  padding: 5px;
+  line-height: 20px;
+} */
+
+/* .modal-form {
+  position: absolute;
+  background-color: antiquewhite;
+} */
+
+/* #workspace-modal {
+  width: 100%;
+  height: 100%;
+}
+
+.modal-wrapper {
+  display: flex;
+  height: 100%;
+  justify-content: space-around;
+}
+
+#workspace-modal form {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: antiquewhite;
+} */
+
+/* #board-modal {
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+} */
+
+/* header */
+.header-container {
+  display: flex;
+  height: 50px;
+  max-height: 100px;
+  padding: 6px 4px;
+  align-items: center;
+  justify-content: space-around;
+}
+
+button.dot-btn {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.home-logo-section {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.home-logo {
+  /* max-width: 50px; */
+  /* flex-shrink: 0; */
+  position: relative;
+  /* padding: 5px; */
+  /* height: 32px; */
+  margin-top: 1px;
+}
+
+.home-logo-btn {
+  position: relative;
+  width: 75px;
+  height: 15px;
+  padding: 8px 0;
+  margin: 0;
+  opacity: 1;
+}
+
+.home-logo-btn::before {
+  content: '';
+  background-image: url('https://a.trellocdn.com/prgb/dist/images/header-logo-spirit.d947df93bc055849898e.gif');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.home-logo-btn::after {
+  content: '';
+  background-image: url('https://a.trellocdn.com/prgb/dist/images/header-logo-spirit-loading.87e1af770a49ce8e84e3.gif');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.header-btn-section {
+  flex-basis: 100%;
+}
+
+.header-btn-section .dropdown-btn {
+  margin-right: 10px;
+  background-color: unset;
+}
+
+.header-middle-section {
+  flex-shrink: 1;
+}
+
+#header {
+  width: 100%;
+  overflow: hidden;
+  background-color: #5A5A54;
+}
+
+#main {
+  flex-grow: 1;
+}
+
+#footer {
+  position: absolute;
+  bottom:0;
+  left: 0;
+}
+
+/* .header-wrapper {
+  max-height: 44px;
+  padding: 6px 4px;
+  background-color: grey;
+  display: flex;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.header-container {
+  display: flex;
+  overflow: hidden;
+}
+
+.nav > *{
+  display: block;
+  width: 20vw;
+}
+
+.back-to-home {
+  flex-shrink: 0;
+  position: relative;
+  padding: 5px;
+  height: 32px;
+  margin-top: 1px;
+}
+
+.home-btn {
+  position: relative;
+  width: 75px;
+  height: 15px;
+  padding: 8px 0;
+  margin: 0;
+  opacity: 1;
+}
+
+.home-btn::before {
+  content: '';
+  background-image: url('https://a.trellocdn.com/prgb/dist/images/header-logo-spirit.d947df93bc055849898e.gif');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.home-btn::after {
+  content: '';
+  background-image: url('https://a.trellocdn.com/prgb/dist/images/header-logo-spirit-loading.87e1af770a49ce8e84e3.gif');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-group {
+  display: flex;
+  flex-basis: 100%;
+}
+
+.btn-group > button {
+  background-color: transparent;
+  height: 32px;
+  margin-right: 4px;
+  padding-right: 10px;
+  white-space: nowrap;
+  color: #172b4d;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 6px 12px;
+  text-decoration: none;
+  white-space: normal;
+  background-color: rgba(9, 30, 66, 0.04);
+  box-shadow: none;
+  border: none;
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+} */
+
+
+
+
+
+#board-modal > * {
+  width: 100%;
+}
+
+.header-dropdown {
+  width: fit-content;
+}
+
+.hidden {
+  display: none;
+}
+
+#sub-root {
+  position: relative;
+}
+
+#surface {
+  display: flex;
+  flex-direction: column;
+}
+
+#workspace-modal {
+  top: 0;
+  left: 0;
+}
+
+.window-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(35, 35, 49, 0.2);
+}
+.window-wrapper > form {
+  width: 400px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.05) 10px 10px;
+  padding: 0 30px;
+}
+
+.modal-form {
+  position: absolute;
+  box-shadow: #5A5A54;
+}
+
+/* button {
+  appearance: auto;
+  writing-mode: horizontal-tb !important;
+  text-rendering: auto;
+  color: buttontext;
+  letter-spacing: normal;
+  word-spacing: normal;
+  line-height: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: center;
+  align-items: center;
+  cursor: default;
+  background-color: buttonface;
+  margin: 0em;
+  padding: 1px 6px;
+  border: unset;
+  border-width: 2px;
+  border-style: outset;
+  border-color: buttonborder;
+  border-image: initial;
+} */
+
+
+
+.hover:hover {
+  background-color: rgb(88, 94, 100);
+}
