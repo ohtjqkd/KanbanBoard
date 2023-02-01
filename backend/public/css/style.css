@@ -1,0 +1,21 @@
+#list1 .form-control {
+    border-color: transparent;
+    }
+    #list1 .form-control:focus {
+    border-color: transparent;
+    box-shadow: none;
+    }
+    #list1 .select-input.form-control[readonly]:not([disabled]) {
+    background-color: #fbfbfb;
+}
+
+.card.draggable {
+    margin-bottom: 1rem;
+    cursor: grab;
+}
+
+.droppable {
+    background-color: var(--success);
+    min-height: 120px;
+    margin-bottom: 1rem;
+}

@@ -1,0 +1,41 @@
+const ActionTypes = {
+  Init: {
+    ON_LOAD_MAIN: 'ON_LOAD_MAIN',
+    ON_LOAD_BOARD: 'ON_LOAD_BOARD',
+  },
+  Auth: {
+    LOG_IN: 'LOG_IN',
+    LOG_OUT: 'LOG_OUT',
+    FETCH: 'FETCH',
+    RESET: 'RESET',
+  },
+  Main: {
+    TOGGLE_MODAL: 'TOGGLE_MODAL',
+  },
+  Modal: {
+    WORKSPACE_TOGGLE: 'WORKSPACE_TOGGLE',
+    BOARD_TOGGLE: 'BOARD_TOGGLE',
+    DROPDOWN_TOGGLE: 'DROPDOWN_TOGGLE',
+    FETCH_TO_DROPDOWN: 'FETCH_TO_DROPDOWN',
+    RESET: 'RESET',
+  },
+  Workspace: {
+    FETCH_WORKSPACE: 'FETCH_WORKSPACE',
+    ADD_WORKSPACE: 'ADD_WORKSPACE',
+    ADD_BOARD: 'ADD_BOARD',
+    RESET: 'RESET',
+  },
+  Socket: {
+    CONNECT: 'CONNECT',
+    DISCONNECT: 'DISCONNECT',
+    JOIN_BOARD: 'JOIN_BOARD',
+    RESET: 'RESET',
+  },
+  Board: {
+    CREATE_LIST: 'CREATE_LIST',
+    CREATE_CARD: 'CREATE_CARD',
+    RESET: 'RESET',
+  }
+}
+
+export default ActionTypes

@@ -1,0 +1,50 @@
+{
+    "project": {
+        "title": "hi",
+        "lists": [
+            {
+                "title": "Tasks to Do",
+                "tickets": [
+                    {"content": "Complete mock-up for client website"},
+                    {"content": "Email mock-up to client for feedback"},
+                    {"content": "Update personal website header background image"},
+                    {"content": "Update personal website heading fonts"},
+                    {"content": "Add google map to personal website"},
+                    {"content": "Begin draft of CSS Grid article"},
+                    {"content": "Read new CSS-Tricks articles"},
+                    {"content": "Read new Smashing Magazine articles"},
+                    {"content": "Read other bookmarked articles"},
+                    {"content": "Look through portfolios to gather inspiration"},
+                    {"content": "Create something cool for CodePen"},
+                    {"content": "Post latest CodePen work on Twitter"},
+                    {"content": "Listen to new Syntax.fm episode"},
+                    {"content": "Listen to new CodePen Radio episode"}
+                ]
+            },
+            {
+                "title": "Completed Tasks",
+                "tickets": [
+                    {"content": "Clear email inbox"},
+                    {"content": "Finalise requirements for client web design"},
+                    {"content": "Begin work on mock-up for client website"}
+                ]
+            },
+            {
+                "title": "Done",
+                "tickets": [
+                    {"content": "Clear email inbox"},
+                    {"content": "Finalise requirements for client web design"},
+                    {"content": "Begin work on mock-up for client website"}
+                ]
+            },
+            {
+                "title": "Hello",
+                "tickets": [
+                    {"content": "Clear email inbox"},
+                    {"content": "Finalise requirements for client web design"},
+                    {"content": "Begin work on mock-up for client website"}
+                ]
+            }
+        ]
+    }
+}

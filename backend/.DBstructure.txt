@@ -1,0 +1,89 @@
+// foreign key 사용시 cascade 어떻게 할지도 필요할 듯 합니다.
+
+User = {
+	id: integer, primaryKey, autoIncrement,
+	name: string, unique, //unique 삭제
+	email: string, unique, 
+	createdAt: datetime, 
+	updatedAt: datetime
+}
+
+Member = {
+	id: integer, primaryKey, autoIncrement,
+	userId: integer, foreignKey,
+	wsId: integer, foreignKey,
+	authority: enum, [owner, maintainer, member],
+	recent: datetime, // 이건 무슨 의미일까요?
+	createdAt: datetime,
+	updatedAt: datetime
+}
+
+Workspace = {
+	id: integer, primaryKey, autoIncrement,
+	ownerId: integer, foreignKey,
+	wsName: string, // -> name
+	type: string,
+	description: string,
+	createdAt: datetime
+}
+
+Board = {
+	id: integer, primaryKey, autoIncrement,
+	wsId: integer, foreignKey,
+	boardTitle: string, // -> title
+	description: string,
+	visibility: boolean,
+	createdAt: datetime
+}
+
+List = {
+	id: integer, primaryKey, autoIncrement,
+	boardId: integer, foreignKey,
+	listTitle: string, // -> title
+	createdAt: datetime
+}
+
+Card = {
+	id: integer, primaryKey, autoIncrement,
+	listId: integer, foreignKey,
+	content: string,
+	dueDate: datetime,
+	status: boolean,
+	createdAt: datetime
+}
+
+cardHistory = {
+	id: integer, primaryKey, autoIncrement,
+	cardId: integer, foreignKey,
+	description: string (Change ${cardId} ${A} to ${B} )
+	updatedBy: integer, foreignKey, (belongsTo hasMany)
+}
+
+listHistory = {
+	id: integer, primaryKey, autoIncrement,
+	listId: integer, foreignKey,
+	description: string (Change ${cardId} ${A} to ${B} )
+	updatedBy: integer, foreignKey, (belongsTo hasMany)
+}
+
+boardHistory = {
+	id: integer, primaryKey, autoIncrement,
+	boardId: integer, foreignKey,
+	description: string (Change ${cardId} ${A} to ${B} )
+	updatedBy: integer, foreignKey, (belongsTo hasMany)
+}
+
+workSpaceHistory = {
+	id: integer, primaryKey, autoIncrement,
+	wsId: integer, foreignKey,
+	description: string (Change ${cardId} ${A} to ${B} )
+	updatedBy: integer, foreignKey, (belongsTo hasMany)
+}
+
+Link = {
+	id: integer, primaryKey, autoIncrement,
+	wsId: integer, foreignKey,
+	link: string,
+	createdAt: datetime,
+	updatedAt: datetime
+}
