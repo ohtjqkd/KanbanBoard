@@ -4,9 +4,9 @@ var joinRouter = express.Router();
 var userRouter  = express.Router();
 var projectRouter  = express.Router();
 var listRouter = express.Router();
-const models = require("./models");
+const db = require("./models");
 // var models = require('./models.js');
-
+db.sequelize.sync({ force: true })
 // for dev
 const userId = 'ohtjqkd';
 // endfor dev

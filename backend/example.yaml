@@ -1,0 +1,141 @@
+User:
+    id:
+        type: integer primaryKey autoIncrement
+    name:
+        type: string unique
+    email:
+        type: string unique
+    createdAt:
+        type: datetime
+    updatedAt:
+        type: datetime
+
+Member:
+    id:
+        type: integer primaryKey autoIncrement
+    userId:
+        type: integer foreignKey
+    workSpaceId:
+        type: integer foreignKey
+    authority:
+        type: enum [owner maintainer member]
+    recent:
+        type: datetime
+    createdAt:
+        type: datetime
+    updatedAt:
+        type: datetime
+
+Workspace:
+    id:
+        type: integer primaryKey autoIncrement
+    ownerId:
+        type: integer foreignKey
+    workSpaceName:
+        type: string
+    type:
+        type: string
+    description:
+        type: string
+    visibility:
+        type: boolean
+    createdAt:
+        type: datetime
+
+Board:
+    id:
+    workspaceId:
+        type: integer primaryKey autoIncrement
+        type: integer foreignKey
+    boardTitle:
+        type: string
+    visibility:
+        type: boolean
+    createdAt:
+        type: datetime
+
+List:
+    id:
+        type: integer primaryKey autoIncrement
+    boardId:
+        type: integer foreignKey
+    listTitle:
+        type: string
+    position:
+        type: integer
+    createdAt:
+        type: datetime
+
+Card:
+    id:
+        type: integer primaryKey autoIncrement
+    listId:
+        type: integer foreignKey
+    cardTitle:
+        type: string
+    description:
+        type: string
+    dueDate:
+        type: datetime
+    position:
+        type: integer
+    status:
+        type: boolean
+    createdAt:
+        type: datetime
+
+cardHistory:
+    id:
+        type: integer primaryKey autoIncrement
+    cardId:
+        type: integer foreignKey
+    description:
+        type: string
+        example: $(updatedBy) changed $cardId $A to $B )
+    updatedBy:
+        type: integer foreignKey (belongsTo hasMany)
+
+listHistory:
+    id:
+        type: integer primaryKey autoIncrement
+    listId:
+        type: integer foreignKey
+    description:
+        type: string
+        example: $(updatedBy) changed $cardId $A to $B )
+    updatedBy:
+        type: integer foreignKey (belongsTo hasMany)
+
+boardHistory:
+    id:
+        type: integer primaryKey autoIncrement
+    boardId:
+        type: integer foreignKey
+    description:
+        type: string
+        example: $(updatedBy) changed $cardId $A to $B )
+    updatedBy:
+        type: integer foreignKey (belongsTo hasMany)
+
+workSpaceHistory:
+    id:
+        type: integer primaryKey autoIncrement
+    wsId:
+        type: integer foreignKey
+    description:
+        type: string
+        example: (Change $cardId $A to $B )
+    updatedBy:
+        type: integer foreignKey (belongsTo hasMany)
+
+Link:
+    id:
+        type: integer primaryKey autoIncrement
+    wsId:
+        type: integer foreignKey
+    link:
+        type: string
+    createdAt:
+        type: datetime
+    updatedAt:
+        type: datetime

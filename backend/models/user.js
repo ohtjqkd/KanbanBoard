@@ -1,33 +1,31 @@
 'use strict';
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('user', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      email: {
-        type: Sequelize.STRING,
-        unique: true,
-        allowNull: false
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    })
-  },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('user');
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class user extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      this.hasMany(models.member)
+      this.hasMany(models.workspace)
+    }
   }
+  user.init({
+    name: {
+      type: DataTypes.STRING,
+    },
+    email: {
+      type: DataTypes.STRING,
+    }
+  }, {
+    sequelize,
+    timestamps: true,
+    modelName: 'user',
+  });
+  return user;
 };

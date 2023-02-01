@@ -15,6 +15,12 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
+if (env === 'development') {
+  sequelize.sync()
+} else if (env === 'test') {
+  sequelize.sync({ force: true })
+}
+
 fs
   .readdirSync(__dirname)
   .filter(file => {

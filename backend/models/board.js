@@ -2,38 +2,28 @@
 const {
   Model, Deferrable
 } = require('sequelize');
-const user = require('./user');
 const workspace = require('./workspace');
 module.exports = (sequelize, DataTypes) => {
-  class member extends Model {
+  class board extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    // id;
+    // workSpaceId;
+    // boardTitle;
+    // visibility;
     static associate(models) {
       // define association here
-      this.belongsTo(models.user, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',        
-      })
       this.belongsTo(models.workspace, {
         onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        onUpdate: 'CASCADE'
       })
+      this.hasMany(models.list)
     }
   }
-  member.init({
-    // userId: {
-    //     type: DataTypes.INTEGER,
-    //     references: {
-    //         model: user,
-    //         key: 'id',
-    //     },
-    //     onDelete: 'CASCADE',
-    //     onUpdate: 'CASCADE',
-    //     deferrable: Deferrable.INITIALLY_IMMEDIATE
-    // },
+  board.init({
     // workSpaceId: {
     //     type: DataTypes.INTEGER,
     //     references: {
@@ -44,17 +34,16 @@ module.exports = (sequelize, DataTypes) => {
     //     onUpdate: 'CASCADE',
     //     deferrable: Deferrable.INITIALLY_IMMEDIATE
     // },
-    authority: {
-        type: DataTypes.ENUM,
-        values: ['owner', 'maintainer', 'member'],
+    boardTitle: {
+      type: DataTypes.STRING,
     },
-    // recent: {
-    //   type: DataTypes.STRING,
-    // }
+    visibility: {
+      type: DataTypes.BOOLEAN
+    }
   }, {
     sequelize,
     timestamps: true,
-    modelName: 'member',
+    modelName: 'board',
   });
-  return member;
+  return board;
 };

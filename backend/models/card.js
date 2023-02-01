@@ -1,7 +1,8 @@
 'use strict';
 const {
-  Model
+  Model, Deferrable
 } = require('sequelize');
+const list = require('./list');
 module.exports = (sequelize, DataTypes) => {
   class card extends Model {
     /**
@@ -11,13 +12,43 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.list, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      })
     }
   }
   card.init({
-    list_id: DataTypes.INTEGER,
-    content: DataTypes.STRING
+    // listId: {
+    //   type: DataTypes.INTEGER,
+    //   references: {
+    //     model: list,
+    //     key: 'id'
+    //   },
+    //   onDelete: 'CASCADE',
+    //   onUpdate: 'CASCADE',
+    //   deferrable: Deferrable.INITIALLY_IMMEDIATE
+    // },
+    cardTitle: {
+      type: DataTypes.STRING,
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    // dueDate: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true
+    // },
+    position: {
+      type: DataTypes.INTEGER,
+    },
+    status: {
+      type: DataTypes.BOOLEAN
+    }
   }, {
     sequelize,
+    timestamps: true,
     modelName: 'card',
   });
   return card;
